@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 public class PosMachine {
     public String printReceipt(List<String> barcodes) {
         List<ReceiptItem> receiptItems = decodeToItems(barcodes);
+        Receipt receipt = calculateCost(receiptItems);
         return null;
     }
 
@@ -32,5 +33,12 @@ public class PosMachine {
                 , entryItem.getPrice()
                 , itemCountMapEntry.getValue().intValue() * entryItem.getPrice())
                 : null;
+    }
+
+    private int calculateTotalPrice(List<ReceiptItem> receiptItems) {
+        return receiptItems.stream()
+                .map(receiptItem -> receiptItem.getSubTotal())
+                .reduce((firstSubtotal, secondSubtotal) -> firstSubtotal + secondSubtotal)
+                .orElse(0);
     }
 }
