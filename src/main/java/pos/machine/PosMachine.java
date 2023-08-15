@@ -9,7 +9,6 @@ public class PosMachine {
     public String printReceipt(List<String> barcodes) {
         List<ReceiptItem> receiptItems = decodeToItems(barcodes);
         Receipt receipt = calculateCost(receiptItems);
-        System.out.println(renderReceipt(receipt));
         return renderReceipt(receipt);
     }
 
@@ -48,7 +47,11 @@ public class PosMachine {
                 .reduce((firstSubtotal, secondSubtotal) -> firstSubtotal + secondSubtotal)
                 .orElse(0);
     }
-    
+
+    private String renderReceipt(Receipt receipt){
+        return "***<store earning no money>Receipt***\n" + generateItemsReceipt(receipt) + "\n----------------------\n" + "Total: " + receipt.getTotalPrice() + " (yuan)\n" + "**********************";
+    }
+
     private String generateItemsReceipt(Receipt receipt) {
         return receipt.getReceiptItems().stream()
                 .map(receiptItem -> "Name: " + receiptItem.getName() + ", Quantity: " + receiptItem.getQuantity() + ", Unit price: " + receiptItem.getUnitPrice() + " (yuan)" + ", Subtotal: " + receiptItem.getSubTotal() + " (yuan)")
