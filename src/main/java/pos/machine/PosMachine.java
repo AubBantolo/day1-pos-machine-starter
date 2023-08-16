@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 
 public class PosMachine {
     public String printReceipt(List<String> barcodes) {
+        //TODO Double check the yellow refactor to have a clean code
         List<ReceiptItem> receiptItems = decodeToItems(barcodes);
         Receipt receipt = calculateCost(receiptItems);
         return renderReceipt(receipt);
